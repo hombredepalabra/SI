@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Auditor - SI-App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-4">
+    <h2>Panel de Auditor</h2>
+    <button class="btn btn-danger float-end" onclick="logout()">Cerrar sesión</button>
+    <h4 class="mt-4">Historial de Auditoría</h4>
+    <table class="table table-bordered" id="tablaAuditoria">
+      <thead><tr><th>ID</th><th>Usuario</th><th>Acción</th><th>Tabla</th><th>Fecha y Hora</th><th>Likert</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script>
+    async function cargarAuditoria() {
+      const res = await fetch('/api/auditoria');
+      const auditoria = await res.json();
+      const tbody = document.querySelector('#tablaAuditoria tbody');
+      tbody.innerHTML = '';
+      auditoria.forEach(a => {
+        tbody.innerHTML += `<tr>
+          <td>${a.id}</td>
+          <td>${a.usuario}</td>
+          <td>${a.accion}</td>
+          <td>${a.tabla}</td>
+          <td>${a.fecha_hora.replace('T',' ').substring(0,19)}</td>
+          <td>${a.valor_likert !== null ? a.valor_likert : `<select onchange="calificar(${a.id}, this.value)"><option value="">Calificar</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>`}</td>
+        </tr>`;
+      });
+    }
+    cargarAuditoria();
+    async function calificar(id, valor) {
+      await fetch('/api/auditoria/likert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, valor_likert: valor })
+      });
+      cargarAuditoria();
+    }
+    async function logout() {
+      await fetch('/api/logout', { method: 'POST' });
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
