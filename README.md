@@ -1,4 +1,4 @@
-# Sistema de Información y Auditoría ArCH
+
 
 Sistema de gestión y auditoría desarrollado con Node.js, React y SQLite. Una aplicación web moderna que permite gestionar registros con diferentes niveles de acceso y un completo sistema de auditoría.
 
