@@ -1,6 +1,6 @@
-# Sistema de Información (SI-App)
+# Sistema de Información y Auditoría ArCH
 
-Este proyecto consta de un backend en Node.js con Express y un frontend en React con Vite.
+Sistema de gestión y auditoría desarrollado con Node.js, React y SQLite. Una aplicación web moderna que permite gestionar registros con diferentes niveles de acceso y un completo sistema de auditoría.
 
 ## Requisitos Previos
 
